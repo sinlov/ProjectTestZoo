@@ -10,5 +10,9 @@ public class NumberTest {
         System.out.println(b);
         System.out.println(a);
         System.out.println(a);
-    }
+        for(int i = 0; i < 100; i++){
+            System.out.println(1 << i);
+        }
+            
+    }  
 }
