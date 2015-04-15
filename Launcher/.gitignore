@@ -1,0 +1,14 @@
+!/.gitignore
+!/.setting
+!/res/
+/.gradle/
+/bin/
+/gen/
+/build.gradle
+/gradle/
+/gradlew
+/gradlew.bat
+/incito_AppCenter_key
+/build/
+/output/
+/zipoutput/

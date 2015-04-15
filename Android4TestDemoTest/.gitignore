@@ -1,6 +1,22 @@
+<<<<<<< HEAD
 /gen/
 /bin/
 /.gradle
 /build.gradle
 /build/
+=======
+!/.gitignore
+!/.setting
+!/res/
+/.gradle/
+/bin/
+/gen/
+/build.gradle
+/gradle/
+/gradlew
+/gradlew.bat
+/incito_AppCenter_key
+/build/
+/output/
+>>>>>>> branch 'master' of https://github.com/sinlov/ProjectTestZoo.git
 /zipoutput/
