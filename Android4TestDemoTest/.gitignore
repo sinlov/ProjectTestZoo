@@ -1,2 +1,6 @@
-/bin/
 /gen/
+/bin/
+/.gradle
+/build.gradle
+/build/
+/zipoutput/
