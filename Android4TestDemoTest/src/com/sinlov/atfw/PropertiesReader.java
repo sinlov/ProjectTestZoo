@@ -15,14 +15,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 /**   
  * @ClassName:  PropertiesReader   
- * @Description:TODO(what to do)   
+ * @Description: properties reader   
  * @author: sinlov
  * @date:   Aug 17, 2015 11:50:49 AM   
  */
@@ -35,7 +37,58 @@ public class PropertiesReader {
 	 */
 	private static String matches = "[A-Za-z]:\\\\[^:?\"><*]*";
 	
-	public static Map<String, String> readerPropertiesByPath (String savePath, List<String> keys){
+	/**
+	 * 使用存储路径，获取对于key的配置值，路径请使用可用的绝对路径
+	 * <br><li> 如果不存在则默认返回空串。
+	 * @Title:  getDataByKey
+	 * @Description: get data by key
+	 * @param:  @param savePath
+	 * @param:  @param key
+	 * @param:  @return 
+	 * @return: String or ""
+	 * @author: sinlov
+	 * @date:   Aug 18, 2015 11:23:31 AM
+	 */
+	public static String getDataByKey(String savePath, String key){
+		List<String> keys = new ArrayList<String>();
+		keys.add(key);
+		Map<String, String> datas = readPropertiesByABSPath(savePath, keys);
+		for (Entry<String, String> data : datas.entrySet()) {
+			if (data.getKey().equals(key)) {
+				return data.getValue();
+			}
+		}
+		return "";
+	}
+	
+	/**
+	 * 使用对应数据比较，路径请使用绝对路径
+	 * @Title:  compareData
+	 * @Description: compare data by key
+	 * @param:  @param savePath
+	 * @param:  @param key
+	 * @param:  @param data
+	 * @param:  @return 
+	 * @return: boolean
+	 * @author: sinlov
+	 * @date:   Aug 18, 2015 11:28:28 AM
+	 */
+	public static boolean compareData(String savePath, String key, String data){
+		return getDataByKey(savePath, key).equals(data);
+	}
+	
+	/**
+	 * 
+	 * @Title:  readPropertiesByABSPath
+	 * @Description: read properties file by abs paths
+	 * @param:  @param savePath
+	 * @param:  @param keys
+	 * @param:  @return 
+	 * @return: Map<String,String>
+	 * @author: sinlov
+	 * @date:   Aug 18, 2015 11:20:38 AM
+	 */
+	public static Map<String, String> readPropertiesByABSPath (String savePath, List<String> keys){
 		if (savePath.matches(matches)) {
 			return null;
 		}
@@ -55,4 +108,6 @@ public class PropertiesReader {
 		return result;
 	}
 	
+	private PropertiesReader() {
+	}
 }

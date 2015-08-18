@@ -30,6 +30,13 @@ import java.util.Properties;
 public class PropertiesWriter {
 	
 	/**
+	 * 验证字符串是否为正确路径名正则表达式
+	 * <p>通过 path.matches(matches) 方法的返回值判断是否正确
+	 * <p>path 为路径字符串
+	 */
+	private static String matches = "[A-Za-z]:\\\\[^:?\"><*]*";
+	
+	/**
 	 * 根据路径和数据写配置文件
 	 * @Title:  writeProperties
 	 * @Description: write properties by path and data
@@ -40,11 +47,11 @@ public class PropertiesWriter {
 	 * @author: sinlov
 	 * @date:   Aug 17, 2015 6:22:19 PM
 	 */
-	public static boolean writeProperties(String savePath, Map<String, String> datas){
-		if (null == datas || datas.isEmpty()) {
+	public static boolean writeProperties(String saveABSPath, Map<String, String> datas){
+		if (null == datas || datas.isEmpty() || saveABSPath.matches(matches)) {
 			return false;
 		}
-		File saveFile = new File(savePath);
+		File saveFile = new File(saveABSPath);
 		if (!saveFile.exists()) {
 			try {
 				saveFile.createNewFile();
@@ -54,7 +61,7 @@ public class PropertiesWriter {
 		}
 		Properties properties = new Properties();
 		try {
-			InputStream fis = new FileInputStream(savePath);
+			InputStream fis = new FileInputStream(saveABSPath);
 			properties.load(fis);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -62,7 +69,7 @@ public class PropertiesWriter {
 			e.printStackTrace();
 		}
 		try {
-			OutputStream fos = new FileOutputStream(savePath);
+			OutputStream fos = new FileOutputStream(saveABSPath);
 			for (Entry<String, String> data : datas.entrySet()) {
 				properties.setProperty(data.getKey(), data.getValue());
 			}
@@ -73,6 +80,19 @@ public class PropertiesWriter {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * 存在问题，因为实际运行路径不一样，此种获取可能出现 '/'这样的返回
+	 * @Title:  getProjectPath
+	 * @Description: get project path 
+	 * @param:  @return 
+	 * @return: String
+	 * @author: sinlov
+	 * @date:   Aug 18, 2015 11:13:29 AM
+	 */
+	public static String getProjectPath(){
+		return System.getProperty("user.dir");
 	}
 
 	private PropertiesWriter() {
