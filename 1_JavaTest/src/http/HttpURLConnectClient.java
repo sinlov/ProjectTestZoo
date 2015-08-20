@@ -271,4 +271,7 @@ public class HttpURLConnectClient {
 			return "";
 		}
 	}
+	private HttpURLConnectClient() {
+	}
+	
 }
