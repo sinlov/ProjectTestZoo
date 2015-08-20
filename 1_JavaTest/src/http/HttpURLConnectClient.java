@@ -43,8 +43,6 @@ public class HttpURLConnectClient {
 	private static String MULTIPART_FROM_DATA = "multipart/form-data";
 	private static String CHARSET = "UTF-8";
 	
-	private static boolean isDone = false;
-	
 	/**
 	 * 设置连接超时
 	 * @param dEFAULT_OFT
@@ -89,12 +87,10 @@ public class HttpURLConnectClient {
 			outStream = new DataOutputStream(
 					conn.getOutputStream());
 			byte[] buffer = sb.toString().getBytes();
-			isDone = writeAppend(outStream, buffer);
-			if (!isDone) {
+			if (!writeAppend(outStream, buffer)) {
 				return "";
 			}
-			isDone = writeEndData(outStream, BOUNDARY);
-			if (!isDone) {
+			if (!writeEndData(outStream, BOUNDARY)) {
 				return "";
 			}
 			int reCode = conn.getResponseCode();
@@ -106,15 +102,14 @@ public class HttpURLConnectClient {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			isDone = false;
 		}finally{
 			try {
-				outStream.close();
+				if (null != outStream) {
+					outStream.close();
+				}
 				conn.disconnect();
 			} catch (IOException e2) {
 				e2.printStackTrace();
-
-				isDone = false;
 			}
 		}
 		return requestStr;
@@ -129,7 +124,6 @@ public class HttpURLConnectClient {
 	 * @return
 	 */
 	private static HttpURLConnection refreshDataAndConn(String actionUrl){
-		isDone = false;
 		BOUNDARY = java.util.UUID.randomUUID().toString();
 		HttpURLConnection cn = null;
 		try {
